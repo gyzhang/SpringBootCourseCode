@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hello Vue</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p>最简单的前后端分离应用：访问后台Spring Boot服务，返回一个字符串消息显示在下面。</p>
+    <p><button v-on:click="sayHello">访问后台</button></p>
+    <p><h1>{{ helloSpringBoot }}</h1></p>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        helloSpringBoot: '请点击“访问后台”按钮。'
+      },
+      methods: {
+          sayHello() {
+            var vm = this;
+            axios({
+              method: 'get',
+              url: 'http://localhost:8080/hello',
+            }).then(function (res) {
+              vm.helloSpringBoot = res.data;
+            }).catch(function (error) {
+              console.log(error);
+            });
+          }          
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spirng-boot-mongodb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test

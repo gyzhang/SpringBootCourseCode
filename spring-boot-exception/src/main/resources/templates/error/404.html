@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>哦豁</title>
+</head>
+<body>
+	你访问的页面逃跑啦！（使用Thymeleaf动态错误页面）
+	<p th:text="${'错误：'+error}"></p>
+	<p th:text="${'错误码：'+status}"></p>
+	<p th:text="${'错误信息：'+message}"></p>
+</body>
+</html>

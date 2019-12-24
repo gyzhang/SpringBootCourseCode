@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: spring-boot-rabbitmq
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+# 开启发送确认
+    publisher-confirm-type: correlated
+# 开启发送失败退回
+    publisher-returns: true
+# 开启ACK
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        acknowledge-mode: manual

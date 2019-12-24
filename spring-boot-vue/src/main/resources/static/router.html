@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>vue 路由示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>Vue路由示例：访问后台Spring Boot服务，实现用户注册、查看功能。</p>
+        <router-view></router-view>
+    </div>
+
+    <!-- 主页面组件 -->
+    <template id="index">
+      <div>
+            <!-- 使用路由自带 router-link 组件来导航，通过传入 to 属性指定链接 -->
+            <router-link to="/regist"><button>注册新用户</button></router-link>
+            <router-link to="/showUser"><button>查看用户列表</button></router-link>
+      </div>
+    </template>
+
+    <!-- 用户注册界面组件 -->
+    <template id="regist">
+      <div>
+        <p>用户名：<input type="text" placeholder="请输入用户名" v-model="name"></p>
+        <router-link to="/"><button>返回</button></router-link>
+        <button v-on:click="save">保存</button>
+      </div>
+    </template>
+
+    <!-- 用户信息列表组件 -->
+    <template id="showUser">
+        <div>
+            <p>已注册用户列表</p>
+            <p v-for="(i, index) in user_arr" v-on:key="index">{{i}}</p>
+            <router-link to="/"><button>返回</button></router-link>
+        </div>
+    </template>
+
+
+    <script type="text/javascript">
+        // 定义主页面组件
+        const index_component = {
+            template: '#index', 
+        };
+
+        // 定义注册组件
+        const regist_component = {
+            template: '#regist',
+            data() {
+                return {
+                    name: ''
+                }
+            },
+            methods: {
+                save() {
+                    var vm = this;
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:8080/register?name=' + vm.name
+                    }).then(function(res) {
+                        alert(res.data)
+                    }).catch(function(error) {
+                        console.log(error);
+                    });
+                }
+            }
+        };
+        // 定义用户列表组件
+        const user_component = {
+            template: '#showUser',
+            data() {
+                return {
+                    user_arr: []
+                }
+            },
+            mounted() {
+                var vm = this;
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:8080/getUsers'
+                }).then(function(res) {
+                    vm.user_arr = res.data;
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            }
+        };
+
+        // 创建 router 实例，配置 routes
+        const router = new VueRouter({
+            routes: [{
+                path: '/',
+                component: index_component
+            }, {
+                path: '/regist',
+                component: regist_component
+            }, {
+                path: '/showUser',
+                component: user_component
+            }]
+        });
+
+        // 创建 Vue 实例
+        var vm = new Vue({
+            el: '#app',
+            router
+        })
+    </script>
+</body>
+
+</html>
