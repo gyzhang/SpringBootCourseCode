@@ -12,6 +12,7 @@ mybatis:
 # Actuator 端口配置
 management:
   endpoint:    shutdown:      enabled: true
+    health:      show-details: always
   endpoints:
     web:
       exposure:
