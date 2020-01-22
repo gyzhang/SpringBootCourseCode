@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import com.example.quartz.job.HelloJob;
 
 /**
- * Quartz调度器示例
+ * Quartz调度器示例，传统方式
  * @author Kevin
  *
  */
-@Service
+//@Service
 public class TestQuartz {
 
 	public TestQuartz() {
