@@ -81,8 +81,11 @@ public class SpringBatchConfig {
 	 * @return
 	 */
 	@Bean
-	Step myStep() {
-		return stepBuilderFactory.get("myStep").<User, User>chunk(2).reader(itemReader()).writer(jdbcBatchItemWriter())
+	Step myStep(FlatFileItemReader<User> reader, JdbcBatchItemWriter<User> writer) {
+		return stepBuilderFactory.get("myStep")
+				.<User, User>chunk(2)
+				.reader(reader)
+				.writer(writer)
 				.build();
 	}
 
@@ -91,8 +94,10 @@ public class SpringBatchConfig {
 	 * @return
 	 */
 	@Bean
-	Job myJob() {
-		return jobBuilderFactory.get("myJob").start(myStep()).build();
+	Job myJob(Step step) {
+		return jobBuilderFactory.get("myJob")
+				.start(step)
+				.build();
 	}
 
 }
