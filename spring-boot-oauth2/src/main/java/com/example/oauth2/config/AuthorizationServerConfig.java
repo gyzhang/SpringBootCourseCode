@@ -16,9 +16,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import com.example.oauth2.service.UserDetailService;
 
-/**
- * @author MrBird
- */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
