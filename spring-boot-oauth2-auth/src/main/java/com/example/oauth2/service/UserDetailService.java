@@ -1,5 +1,7 @@
 package com.example.oauth2.service;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -12,9 +14,10 @@ import org.springframework.stereotype.Service;
 import com.example.oauth2.entity.SysUser;
 
 @Service
-public class UserDetailService implements UserDetailsService {
-
-    @Autowired
+public class UserDetailService implements UserDetailsService, Serializable {
+	private static final long serialVersionUID = 4332055236047478860L;
+	
+	@Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override

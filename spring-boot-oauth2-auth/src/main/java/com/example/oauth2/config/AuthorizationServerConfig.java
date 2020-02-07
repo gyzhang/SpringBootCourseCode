@@ -47,7 +47,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient("client_123456")// 这里直接把配置信息保存在内存中
 				.secret(passwordEncoder.encode("secret_123456"))// 这里必须使用加密
-				.authorizedGrantTypes("authorization_code", "refresh_token", "password", "implicit").scopes("all");
+				.authorizedGrantTypes("authorization_code", "refresh_token", "password", "implicit").scopes("all")
+                .redirectUris("http://localhost:8080/callback")
+                .accessTokenValiditySeconds(30*60)
+                .refreshTokenValiditySeconds(60*60);
 	}
 
 	// 配置 Token 的节点 和 Token 服务
@@ -62,9 +65,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security
-			.tokenKeyAccess("permitAll()")
-			.checkTokenAccess("isAuthenticated()")
-			.allowFormAuthenticationForClients();
+			.tokenKeyAccess("isAuthenticated()")
+			.checkTokenAccess("permitAll()")
+			.allowFormAuthenticationForClients(); //支持把secret和client id写在url上，否则需要在请求头上
 	}
 
 }

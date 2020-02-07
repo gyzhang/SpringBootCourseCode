@@ -22,19 +22,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-		.formLogin()
-		.loginPage("/login")
-		.failureUrl("/login?error")
-		.defaultSuccessUrl("/index")
-		.permitAll()
-		.and().logout()
-			.logoutUrl("/logout")
-			.logoutSuccessUrl("/login?logout")
-			.clearAuthentication(true)
-			.invalidateHttpSession(true)
-			.permitAll()
-		.and().authorizeRequests()
-			.antMatchers("/oauth/**").permitAll()
+		.authorizeRequests()
+			.antMatchers("/callback").permitAll() //允许无权限访问 callback
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/user/**").hasRole("USER")
 			.antMatchers("/other/**").hasRole("OTHER")
